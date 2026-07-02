@@ -19,9 +19,16 @@ namespace BookingSystem
             List<Admin> admins = new List<Admin>();
             //End Temporary database 
 
+            //Start Main Pogram
+            MainMenu(users, providers, admins);
+            //End Main Pogram
+        }
+
+        //Start MainMenu function
+        public static void MainMenu(List<User> users, List<Provider> providers, List<Admin> admins)
+        {
             bool isRuning = true;
 
-            //Start Main Pogram
             while (isRuning)
             {
                 try
@@ -44,7 +51,7 @@ namespace BookingSystem
                             Login(users, providers, admins);
                             break;
                         case 2:
-                            SignUp(users, providers, admins);
+                            SignUpMenu(users, providers, admins);
                             break;
                         case 3:
                             ShowUserList(users);
@@ -64,8 +71,9 @@ namespace BookingSystem
                     Console.WriteLine("please enter numbers only");
                 }
             }
-            //End Main Pogram
         }
+        //End MainMenu function
+
         //Start login function
         public static void Login(List<User> users, List<Provider> providers, List<Admin> admins)
         {
@@ -87,23 +95,6 @@ namespace BookingSystem
                         Console.ResetColor();
                         isUserFound = true;
                         break;
-                    }
-                }
-            }
-            if (!isUserFound)
-            {
-                for (int i = 0; i < providers.Count; i++)
-                {
-                    if (providers[i].UserName == username)
-                    {
-                        if (providers[i].Password == password)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("you logged in successfully");
-                            Console.ResetColor();
-                            isUserFound = true;
-                            break;
-                        }
                     }
                 }
             }
@@ -132,7 +123,7 @@ namespace BookingSystem
         //End login function
 
         //Start signUp function
-        public static void SignUp(List<User> users, List<Provider> providers, List<Admin> admins)
+        public static void SignUpMenu(List<User> users, List<Provider> providers, List<Admin> admins)
         {
             bool isRuning = true;
 
@@ -169,12 +160,13 @@ namespace BookingSystem
                                     break;
                                 case 3:
                                     break;
-                                
+
                             }
 
-
+                            ManageProductMenu();
                             AddProduct(provider);
                             ShowProduct(provider);
+
                             isRuning = false;
                             break;
                         case 3:
@@ -242,6 +234,56 @@ namespace BookingSystem
             return provider;
         }
         //End separate signUp function for provider
+
+        public static void ManageProductMenu()
+        {
+            bool isRuning = false;
+
+            //while (isRuning)
+            //{
+            //    try
+            //    {
+            //        Console.ForegroundColor = ConsoleColor.Yellow;
+            //        Console.WriteLine("-------------");
+            //        Console.WriteLine("Provider Menu :");
+            //        Console.WriteLine("1 Add product");
+            //        Console.WriteLine("2 Show products");
+            //        Console.WriteLine("3 Delete product");
+            //        Console.WriteLine("4 Back to ");
+            //        Console.WriteLine("-------------");
+            //        Console.ResetColor();
+
+            //        int optionNumber = Convert.ToInt32(Console.ReadLine());
+
+            //        switch (optionNumber)
+            //        {
+            //            case 1:
+            //                Login(users, providers, admins);
+            //                break;
+            //            case 2:
+            //                SignUpMenu(users, providers, admins);
+            //                break;
+            //            case 3:
+            //                ShowUserList(users);
+            //                ShowProviderList(providers);
+            //                ShowAdminList(admins);
+            //                break;
+            //            case 4:
+            //                isRuning = false;
+            //                break;
+            //            default:
+            //                Console.WriteLine("Invalid choice please try again");
+            //                break;
+            //        }
+            //    }
+            //    catch (FormatException)
+            //    {
+            //        Console.WriteLine("please enter numbers only");
+            //    }
+            //}
+
+        }
+
 
         //Start separate signUp function for admin
         public static Admin AdminSignUp()
