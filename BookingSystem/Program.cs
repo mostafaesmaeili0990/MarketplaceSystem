@@ -160,7 +160,21 @@ namespace BookingSystem
                         case 2:
                             Provider provider = ProviderSignUp();
                             providers.Add(provider);
-                            providerProgram(provider);
+
+                            switch (2)
+                            {
+                                case 1:
+                                    break;
+                                case 2:
+                                    break;
+                                case 3:
+                                    break;
+                                
+                            }
+
+
+                            AddProduct(provider);
+                            ShowProduct(provider);
                             isRuning = false;
                             break;
                         case 3:
@@ -213,7 +227,7 @@ namespace BookingSystem
             provider.FirstName = GetValidInputLength(GetStringValue(), minLength: 3);
             Console.WriteLine("enter your last name");
             provider.LastName = GetValidInputLength(GetStringValue(), minLength: 3);
-            Console.WriteLine("enter your user service");
+            Console.WriteLine("enter your service");
             provider.Service = GetStringValue();
             Console.WriteLine("enter your user name");
             provider.UserName = GetStringValue();
@@ -350,8 +364,7 @@ namespace BookingSystem
             Console.WriteLine("product list:");
 
         }
-
-        public static void providerProgram(Provider provider)
+        public static void AddProduct(Provider provider)
         {
             Console.WriteLine("please enter the name of product :");
             string name = GetStringValue();
@@ -362,19 +375,26 @@ namespace BookingSystem
             Console.WriteLine("please enter the stock of product :");
             string stock = GetStringValue();
 
-            provider.Products.Add(new Product 
-            { 
+            provider.Products.Add(new Product
+            {
                 Name = name,
                 Description = desciption,
                 Price = price,
                 Stock = stock
             });
 
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("product added successfully");
-
-            Console.WriteLine("product info : ")
-
+            Console.ResetColor();
         }
+        public static void ShowProduct(Provider provider)
+        {
+            foreach (Product product in provider.Products)
+            {
+                Console.WriteLine($"product info: name: {product.Name} , description: {product.Description} , price: {product.Price} , stock: {product.Stock}");
+            }
+        }
+
 
     }
 }
