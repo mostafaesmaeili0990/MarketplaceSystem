@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BookingSystem
+namespace MarketplaceSystem
 {
     internal class Program
     {
@@ -19,11 +19,11 @@ namespace BookingSystem
             List<Admin> admins = new List<Admin>();
             //End Temporary database 
 
-            //Start Main Pogram
-            MainMenu(users, providers, admins);
-            //End Main Pogram
-        }
+            //ProviderProgram(providers);
 
+            MainMenu(users, providers, admins);
+
+        }
         //Start MainMenu function
         public static void MainMenu(List<User> users, List<Provider> providers, List<Admin> admins)
         {
@@ -34,13 +34,11 @@ namespace BookingSystem
                 try
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine("-------------");
-                    Console.WriteLine("Menu :");
-                    Console.WriteLine("1 Login");
-                    Console.WriteLine("2 Sign up");
-                    Console.WriteLine("3 Show list");
+                    Console.WriteLine("Determine your role");
+                    Console.WriteLine("1 User");
+                    Console.WriteLine("2 Provider");
+                    Console.WriteLine("3 Admin");
                     Console.WriteLine("4 Exit");
-                    Console.WriteLine("-------------");
                     Console.ResetColor();
 
                     int optionNumber = Convert.ToInt32(Console.ReadLine());
@@ -48,15 +46,13 @@ namespace BookingSystem
                     switch (optionNumber)
                     {
                         case 1:
-                            Login(users, providers, admins);
+                            UserProgram(users, providers);
                             break;
                         case 2:
-                            SignUpMenu(users, providers, admins);
+                            ProviderProgram(providers);
                             break;
                         case 3:
-                            ShowUserList(users);
-                            ShowProviderList(providers);
-                            ShowAdminList(admins);
+                            AdminProgram(admins, providers, users);
                             break;
                         case 4:
                             isRuning = false;
@@ -74,104 +70,224 @@ namespace BookingSystem
         }
         //End MainMenu function
 
-        //Start login function
-        public static void Login(List<User> users, List<Provider> providers, List<Admin> admins)
-        {
-            Console.WriteLine("please enter your user name");
-            string username = Console.ReadLine();
-            Console.WriteLine("please enter your password");
-            string password = Console.ReadLine();
-
-            bool isUserFound = false;
-
-            for (int i = 0; i < users.Count; i++)
-            {
-                if (users[i].UserName == username)
-                {
-                    if (users[i].Password == password)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine("you logged in successfully");
-                        Console.ResetColor();
-                        isUserFound = true;
-                        break;
-                    }
-                }
-            }
-            if (!isUserFound)
-            {
-                for (int i = 0; i < admins.Count; i++)
-                {
-                    if (admins[i].UserName == username)
-                    {
-                        if (admins[i].Password == password)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("you logged in successfully");
-                            Console.ResetColor();
-                            isUserFound = true;
-                            break;
-                        }
-                    }
-                }
-            }
-            if (!isUserFound)
-            {
-                Console.WriteLine("we couldn't find you ! please sign up first.");
-            }
-        }
-        //End login function
-
-        //Start signUp function
-        public static void SignUpMenu(List<User> users, List<Provider> providers, List<Admin> admins)
+        // Start user program
+        public static void UserProgram(List<User> users, List<Provider> providers)
         {
             bool isRuning = true;
-
             while (isRuning)
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("Determine your role");
-                Console.WriteLine("1 User");
-                Console.WriteLine("2 Provider");
-                Console.WriteLine("3 Admin");
-                Console.WriteLine("4 Back to menu");
-                Console.ResetColor();
-
-                int optionNumber = Convert.ToInt32(Console.ReadLine());
-
                 try
                 {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("-------------");
+                    Console.WriteLine("User Menu :");
+                    Console.WriteLine("1 Login");
+                    Console.WriteLine("2 Sign up");
+                    Console.WriteLine("3 Back to main menu");
+                    Console.WriteLine("-------------");
+                    Console.ResetColor();
+
+                    int optionNumber = Convert.ToInt32(Console.ReadLine());
+
+                    User user;
+
                     switch (optionNumber)
                     {
                         case 1:
-                            users.Add(UserSignUp());
-                            userProgram();
-                            isRuning = false;
+                            user = UserLogin(users);
+                            if (user != null)
+                            {
+                                UserTools(user, providers);
+                            }
+                            else
+                            {
+                                Console.WriteLine("we couldn't find you ! please sign up first.");
+                            }
                             break;
                         case 2:
-                            Provider provider = ProviderSignUp();
-                            providers.Add(provider);
-
-                            switch (2)
-                            {
-                                case 1:
-                                    break;
-                                case 2:
-                                    break;
-                                case 3:
-                                    break;
-
-                            }
-
-                            ManageProductMenu();
-                            AddProduct(provider);
-                            ShowProduct(provider);
-
+                            user = UserSignUp();
+                            users.Add(user);
+                            UserTools(user, providers);
+                            break;
+                        //case 3:
+                        //    //ShowProviderList(providers);
+                        //    //ShowAdminList(admins);
+                        //break;
+                        case 3:
                             isRuning = false;
                             break;
-                        case 3:
-                            admins.Add(AdminSignUp());
+                        default:
+                            Console.WriteLine("Invalid choice please try again");
+                            break;
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("please enter numbers only");
+                }
+            }
+        }
+        // End user program
+
+        //Start user tools function
+        public static void UserTools(User user, List<Provider> providers)
+        {
+
+            Console.WriteLine($"Hi {user.FirstName} {user.LastName}");
+
+            bool isRuning = true;
+            while (isRuning)
+            {
+                try
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("-------------");
+                    Console.WriteLine("User Tools :");
+                    Console.WriteLine("1 Show the products of providers");
+                    Console.WriteLine("2 Back to user menu");
+                    Console.WriteLine("-------------");
+                    Console.ResetColor();
+
+                    int optionNumber = Convert.ToInt32(Console.ReadLine());
+
+                    switch (optionNumber)
+                    {
+                        case 1:
+                            ShowProductsOfAllProviders(providers);
+                            break;
+                        case 2:
                             isRuning = false;
+                            break;
+                        default:
+                            Console.WriteLine("Invalid choice please try again");
+                            break;
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("please enter numbers only");
+                }
+            }
+        }
+        //End user tools function
+
+        //Start show products of all providers
+        public static void ShowProductsOfAllProviders(List<Provider> providers)
+        {
+            foreach (Provider provider in providers)
+            {
+                Console.WriteLine($"Provider full name : {provider.FirstName} {provider.LastName}");
+                Console.WriteLine("products {");
+                ShowProducts(provider);
+                Console.WriteLine("}");
+
+            }
+        }
+        //End show products of all providers
+
+
+        // Start provider program
+        public static void ProviderProgram(List<Provider> providers)
+        {
+            bool isRuning = true;
+            while (isRuning)
+            {
+                try
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("-------------");
+                    Console.WriteLine("Provider Menu :");
+                    Console.WriteLine("1 Login");
+                    Console.WriteLine("2 Sign up");
+                    Console.WriteLine("3 Back to main menu");
+                    Console.WriteLine("-------------");
+                    Console.ResetColor();
+
+                    int optionNumber = Convert.ToInt32(Console.ReadLine());
+
+                    Provider provider;
+
+                    switch (optionNumber)
+                    {
+                        case 1:
+                            provider = ProviderLogin(providers);
+                            if (provider != null)
+                            {
+                                ProviderTools(provider);
+                            }
+                            else
+                            {
+                                Console.WriteLine("we couldn't find you ! please sign up first.");
+                            }
+
+                            break;
+                        case 2:
+                            provider = ProviderSignUp();
+                            providers.Add(provider);
+                            ProviderTools(provider);
+                            break;
+                        //case 3:
+                        //    //ShowProviderList(providers);
+                        //    //ShowAdminList(admins);
+                        //break;
+                        case 3:
+                            isRuning = false;
+                            break;
+                        default:
+                            Console.WriteLine("Invalid choice please try again");
+                            break;
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("please enter numbers only");
+                }
+            }
+        }
+        // End provider program
+
+        // Start provider tools 
+        public static void ProviderTools(Provider provider)
+        {
+            Console.WriteLine($"Hi {provider.FirstName} {provider.LastName}");
+
+            bool isRuning = true;
+            while (isRuning)
+            {
+                try
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("-------------");
+                    Console.WriteLine("Provider Tools :");
+                    Console.WriteLine("1 Show products");
+                    Console.WriteLine("2 Add product");
+                    Console.WriteLine("3 Delete product");
+                    Console.WriteLine("4 Back to provider menu");
+                    Console.WriteLine("-------------");
+                    Console.ResetColor();
+
+                    int optionNumber = Convert.ToInt32(Console.ReadLine());
+
+                    switch (optionNumber)
+                    {
+                        case 1:
+                            ShowProducts(provider);
+                            break;
+                        case 2:
+                            AddProduct(provider);
+                            break;
+                        case 3:
+                            bool hasProductDeleted = DeleteProduct(provider);
+                            if (hasProductDeleted)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.WriteLine("product removed successfully.");
+                                Console.ResetColor();
+                            }
+                            else
+                            {
+                                Console.WriteLine("we couldn't find the prouduct!.");
+                            }
                             break;
                         case 4:
                             isRuning = false;
@@ -187,9 +303,301 @@ namespace BookingSystem
                 }
             }
         }
-        //End signUp function
+        // End provider tools 
 
-        //Start separate signUp function for user
+        // Start admin program
+        public static void AdminProgram(List<Admin> admins, List<Provider> providers, List<User> users)
+        {
+            bool isRuning = true;
+            while (isRuning)
+            {
+                try
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("-------------");
+                    Console.WriteLine("Admin Menu :");
+                    Console.WriteLine("1 Login");
+                    Console.WriteLine("2 Sign up");
+                    Console.WriteLine("3 Back to main menu");
+                    Console.WriteLine("-------------");
+                    Console.ResetColor();
+
+                    int optionNumber = Convert.ToInt32(Console.ReadLine());
+
+                    Admin admin;
+
+                    switch (optionNumber)
+                    {
+                        case 1:
+                            admin = AdminLogin(admins);
+                            if (admin != null)
+                            {
+                                AdminTools(admin, providers, users);
+                            }
+                            else
+                            {
+                                Console.WriteLine("we couldn't find you , please sign up first!");
+                            }
+
+                            break;
+                        case 2:
+                            admin = AdminSignUp();
+                            admins.Add(admin);
+                            AdminTools(admin, providers, users);
+                            break;
+                        //case 3:
+                        //    //ShowProviderList(providers);
+                        //    //ShowAdminList(admins);
+                        //break;
+                        case 3:
+                            isRuning = false;
+                            break;
+                        default:
+                            Console.WriteLine("Invalid choice please try again");
+                            break;
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("please enter numbers only");
+                }
+            }
+        }
+        // End admin program
+
+        // Start admin tools
+        public static void AdminTools(Admin admin, List<Provider> providers, List<User> users)
+        {
+            Console.WriteLine($"Hi {admin.FirstName} {admin.LastName}");
+
+            bool isRuning = true;
+            while (isRuning)
+            {
+                try
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("-------------");
+                    Console.WriteLine("Admin Tools :");
+                    Console.WriteLine("1 Show users");
+                    Console.WriteLine("2 Show providers");
+                    //Console.WriteLine("3 Delete product");
+                    Console.WriteLine("3 Back to provider menu");
+                    Console.WriteLine("-------------");
+                    Console.ResetColor();
+
+                    int optionNumber = Convert.ToInt32(Console.ReadLine());
+
+                    switch (optionNumber)
+                    {
+                        case 1:
+                            ShowUsers(users);
+                            break;
+                        case 2:
+                            ShowProviders(providers);
+                            break;
+                        //case 3:
+                        //    bool hasProductDeleted = DeleteProduct(provider);
+                        //    if (hasProductDeleted)
+                        //    {
+                        //        Console.ForegroundColor = ConsoleColor.Green;
+                        //        Console.WriteLine("product removed successfully.");
+                        //        Console.ResetColor();
+                        //    }
+                        //    else
+                        //    {
+                        //        Console.WriteLine("we couldn't find the prouduct!.");
+                        //    }
+                        //    break;
+                        case 3:
+                            isRuning = false;
+                            break;
+                        default:
+                            Console.WriteLine("Invalid choice please try again");
+                            break;
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("please enter numbers only");
+                }
+            }
+        }
+        // End admin program
+
+        // Start show users
+        public static void ShowUsers(List<User> users)
+        {
+            foreach (User user in users)
+            {
+                Console.WriteLine($"User info: first name: {user.FirstName} , last name: {user.LastName} ");
+            }
+        }
+        // End show users
+
+        // Start show providers
+        public static void ShowProviders(List<Provider> providers)
+        {
+            foreach (Provider provider in providers)
+            {
+                Console.WriteLine($"Provider info: first name: {provider.FirstName} , last name: {provider.LastName} ");
+            }
+        }
+        // End show providers
+
+        //Start user login function
+        public static User UserLogin(List<User> users)
+        {
+            Console.WriteLine("please enter your user name");
+            string username = Console.ReadLine();
+
+
+            for (int i = 0; i < users.Count; i++)
+            {
+                if (users[i].UserName == username)
+                {
+                    Console.WriteLine("please enter your password");
+                    string password = Console.ReadLine();
+
+                    while (true)
+                    {
+                        if (users[i].Password == password)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("you logged in successfully");
+                            Console.ResetColor();
+                            return users[i];
+                        }
+                        else
+                        {
+                            Console.WriteLine("your password is incorrect!");
+                        }
+
+                        Console.WriteLine("enter e to exit or any key to retry:");
+                        string word = GetStringValue();
+
+                        if (word == "e")
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("please enter your password");
+                            password = Console.ReadLine();
+                        }
+
+                    }
+
+                }
+
+            }
+
+            return null;
+
+        }
+        //End user login function
+
+        //Start provider provider function
+        public static Provider ProviderLogin(List<Provider> providers)
+        {
+            Console.WriteLine("please enter your user name");
+            string username = Console.ReadLine();
+
+            for (int i = 0; i < providers.Count; i++)
+            {
+                if (providers[i].UserName == username)
+                {
+                    Console.WriteLine("please enter your password");
+                    string password = Console.ReadLine();
+
+                    while (true)
+                    {
+                        if (providers[i].Password == password)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("you logged in successfully");
+                            Console.ResetColor();
+                            return providers[i];
+                        }
+                        else
+                        {
+                            Console.WriteLine("your password is incorrect!");
+                        }
+
+                        Console.WriteLine("enter e to exit or any key to retry:");
+                        string word = GetStringValue();
+
+                        if (word == "e")
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("please enter your password");
+                            password = Console.ReadLine();
+                        }
+
+                    }
+
+                }
+
+            }
+
+            return null;
+
+        }
+        //End provider provider function
+
+        //Start admin login function
+        public static Admin AdminLogin(List<Admin> admins)
+        {
+            Console.WriteLine("please enter your user name");
+            string username = Console.ReadLine();
+
+            for (int i = 0; i < admins.Count; i++)
+            {
+                if (admins[i].UserName == username)
+                {
+                    Console.WriteLine("please enter your password");
+                    string password = Console.ReadLine();
+
+                    while (true)
+                    {
+                        if (admins[i].Password == password)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("you logged in successfully");
+                            Console.ResetColor();
+                            return admins[i];
+                        }
+                        else
+                        {
+                            Console.WriteLine("your password is incorrect!");
+                        }
+
+                        Console.WriteLine("enter e to exit or any key to retry:");
+                        string word = GetStringValue();
+
+                        if (word == "e")
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("please enter your password");
+                            password = Console.ReadLine();
+                        }
+
+                    }
+
+                }
+
+            }
+
+            return null;
+        }
+        //End admin login function
+
+        //Start user sign up function
         public static User UserSignUp()
         {
             User user = new User();
@@ -209,9 +617,9 @@ namespace BookingSystem
 
             return user;
         }
-        //End separate signUp function for user
+        //End user sign up function
 
-        //Start separate signUp function for provider
+        //Start provider sign up function
         public static Provider ProviderSignUp()
         {
             Provider provider = new Provider();
@@ -233,59 +641,9 @@ namespace BookingSystem
 
             return provider;
         }
-        //End separate signUp function for provider
+        //End provider sign up function
 
-        public static void ManageProductMenu()
-        {
-            bool isRuning = false;
-
-            //while (isRuning)
-            //{
-            //    try
-            //    {
-            //        Console.ForegroundColor = ConsoleColor.Yellow;
-            //        Console.WriteLine("-------------");
-            //        Console.WriteLine("Provider Menu :");
-            //        Console.WriteLine("1 Add product");
-            //        Console.WriteLine("2 Show products");
-            //        Console.WriteLine("3 Delete product");
-            //        Console.WriteLine("4 Back to ");
-            //        Console.WriteLine("-------------");
-            //        Console.ResetColor();
-
-            //        int optionNumber = Convert.ToInt32(Console.ReadLine());
-
-            //        switch (optionNumber)
-            //        {
-            //            case 1:
-            //                Login(users, providers, admins);
-            //                break;
-            //            case 2:
-            //                SignUpMenu(users, providers, admins);
-            //                break;
-            //            case 3:
-            //                ShowUserList(users);
-            //                ShowProviderList(providers);
-            //                ShowAdminList(admins);
-            //                break;
-            //            case 4:
-            //                isRuning = false;
-            //                break;
-            //            default:
-            //                Console.WriteLine("Invalid choice please try again");
-            //                break;
-            //        }
-            //    }
-            //    catch (FormatException)
-            //    {
-            //        Console.WriteLine("please enter numbers only");
-            //    }
-            //}
-
-        }
-
-
-        //Start separate signUp function for admin
+        //Start admin sign up function
         public static Admin AdminSignUp()
         {
             Admin admin = new Admin();
@@ -304,7 +662,7 @@ namespace BookingSystem
             Console.ResetColor();
             return admin;
         }
-        //End separate signUp function for admin
+        //End admin sign up function
 
         //Start separate show list function for user
         public static void ShowUserList(List<User> users)
@@ -393,7 +751,7 @@ namespace BookingSystem
                 return false;
             }
 
-            if (minLength != null && wordLength > maxLength)
+            if (maxLength != null && wordLength > maxLength)
             {
                 return false;
             }
@@ -401,11 +759,8 @@ namespace BookingSystem
             return true;
         }
         //End check length function
-        public static void userProgram()
-        {
-            Console.WriteLine("product list:");
 
-        }
+        //Start add product
         public static void AddProduct(Provider provider)
         {
             Console.WriteLine("please enter the name of product :");
@@ -429,14 +784,38 @@ namespace BookingSystem
             Console.WriteLine("product added successfully");
             Console.ResetColor();
         }
-        public static void ShowProduct(Provider provider)
+        //End add product
+
+        //Start delete product function
+        public static bool DeleteProduct(Provider provider)
+        {
+            Console.WriteLine("please enter the name of the product you want to remove:");
+            string name = GetStringValue();
+
+            for (int i = 0; i < provider.Products.Count; i++)
+            {
+                if (provider.Products[i].Name == name)
+                {
+                    provider.Products.RemoveAt(i);
+
+                    return true;
+
+                }
+            }
+
+            return false;
+
+
+
+        }
+        //End add product function
+
+        public static void ShowProducts(Provider provider)
         {
             foreach (Product product in provider.Products)
             {
                 Console.WriteLine($"product info: name: {product.Name} , description: {product.Description} , price: {product.Price} , stock: {product.Stock}");
             }
         }
-
-
     }
 }
