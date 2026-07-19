@@ -9,7 +9,7 @@ namespace MarketplaceSystem
     internal class User:Person
     {
         //Start user sign up function
-        public static User UserSignUp()
+        public static User SignUp()
         {
             User user = new User();
             user.ReadCommonInfoForSignUp();

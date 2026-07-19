@@ -13,6 +13,7 @@ namespace MarketplaceSystem
         {
             Admin admin = new Admin();
             admin.ReadCommonInfoForSignUp();
+            //read specialy information for admin if needed
             return admin;
         }
         //End admin sign up function

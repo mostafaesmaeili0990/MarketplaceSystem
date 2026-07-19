@@ -107,7 +107,7 @@ namespace MarketplaceSystem
                             }
                             break;
                         case 2:
-                            user = UserSignUp();
+                            user = User.SignUp();
                             users.Add(user);
                             UserTools(user, providers);
                             break;
@@ -594,27 +594,9 @@ namespace MarketplaceSystem
         //End admin login function
 
         //Start user sign up function
-        public static User UserSignUp()
-        {
-            User user = new User();
-            Console.WriteLine("enter your first name");
-            user.FirstName = GetValidInputLength(GetStringValue(), minLength: 3);
-            Console.WriteLine("enter your last name");
-            user.LastName = GetValidInputLength(GetStringValue(), minLength: 3);
-            Console.WriteLine("enter your user name");
-            user.UserName = GetStringValue();
-            Console.WriteLine("enter your password");
-            user.Password = GetStringValue();
-            Console.WriteLine("enter your phoneNumber");
-            user.PhoneNumber = GetValidInputLength(GetStringValue(), minLength: 3, maxLength: 11);
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("you have successfully signed up");
-            Console.ResetColor();
-
-            return user;
-        }
+        
         //End user sign up function
-
+        
         //Start provider sign up function
         public static Provider ProviderSignUp()
         {

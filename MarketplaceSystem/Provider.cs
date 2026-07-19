@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookingSystem;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,6 +35,18 @@ namespace MarketplaceSystem
                 _service = value;
             }
         }
+
+        //Start provider sign up function
+        public static Provider SignUp()
+        {
+            Provider provider = new Provider();
+            provider.ReadCommonInfoForSignUp();
+            Console.WriteLine("enter your service");
+            provider.Service = InputHelper.GetStringValue();
+            return provider;
+
+        }
+        //End provider sign up function
 
     }
 
