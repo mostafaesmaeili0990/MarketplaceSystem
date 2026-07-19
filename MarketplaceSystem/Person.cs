@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookingSystem;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -80,6 +81,24 @@ namespace MarketplaceSystem
                 }
 
             }
+        }
+
+        protected void ReadCommonInfoForSignUp()
+        {
+            Console.WriteLine("enter your first name");
+            FirstName = InputHelper.GetValidInputLength(InputHelper.GetStringValue(), minLength: 3);
+            Console.WriteLine("enter your last name");
+            LastName = InputHelper.GetValidInputLength(InputHelper.GetStringValue(), minLength: 3);
+            Console.WriteLine("enter your user name");
+            UserName = InputHelper.GetStringValue();
+            Console.WriteLine("enter your password");
+            Password = InputHelper.GetStringValue();
+            Console.WriteLine("enter your phoneNumber");
+            PhoneNumber = InputHelper.GetValidInputLength(InputHelper.GetStringValue(), minLength: 3, maxLength: 11);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("you have successfully signed up");
+            Console.ResetColor();
+ 
         }
     }
 }

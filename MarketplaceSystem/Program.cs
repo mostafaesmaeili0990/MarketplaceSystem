@@ -19,10 +19,11 @@ namespace MarketplaceSystem
             List<Admin> admins = new List<Admin>();
             //End Temporary database 
 
+            
+
             //ProviderProgram(providers);
 
             MainMenu(users, providers, admins);
-
         }
         //Start MainMenu function
         public static void MainMenu(List<User> users, List<Provider> providers, List<Admin> admins)
@@ -90,6 +91,7 @@ namespace MarketplaceSystem
                     int optionNumber = Convert.ToInt32(Console.ReadLine());
 
                     User user;
+
 
                     switch (optionNumber)
                     {
@@ -341,7 +343,7 @@ namespace MarketplaceSystem
 
                             break;
                         case 2:
-                            admin = AdminSignUp();
+                            admin = Admin.SignUp();
                             admins.Add(admin);
                             AdminTools(admin, providers, users);
                             break;
@@ -450,7 +452,6 @@ namespace MarketplaceSystem
             Console.WriteLine("please enter your user name");
             string username = Console.ReadLine();
 
-
             for (int i = 0; i < users.Count; i++)
             {
                 if (users[i].UserName == username)
@@ -484,15 +485,10 @@ namespace MarketplaceSystem
                             Console.WriteLine("please enter your password");
                             password = Console.ReadLine();
                         }
-
                     }
-
                 }
-
             }
-
             return null;
-
         }
         //End user login function
 
@@ -644,24 +640,7 @@ namespace MarketplaceSystem
         //End provider sign up function
 
         //Start admin sign up function
-        public static Admin AdminSignUp()
-        {
-            Admin admin = new Admin();
-            Console.WriteLine("enter your first name");
-            admin.FirstName = GetValidInputLength(GetStringValue(), minLength: 3);
-            Console.WriteLine("enter your last name");
-            admin.LastName = GetValidInputLength(GetStringValue(), minLength: 3);
-            Console.WriteLine("enter your user name");
-            admin.UserName = GetStringValue();
-            Console.WriteLine("enter your password");
-            admin.Password = GetStringValue();
-            Console.WriteLine("enter your phoneNumber");
-            admin.PhoneNumber = GetValidInputLength(GetStringValue(), minLength: 3, maxLength: 11);
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("you have successfully signed up");
-            Console.ResetColor();
-            return admin;
-        }
+        
         //End admin sign up function
 
         //Start separate show list function for user
@@ -693,72 +672,6 @@ namespace MarketplaceSystem
             }
         }
         //End separate show list function for admin
-
-        //Start get string value function
-        public static string GetStringValue()
-        {
-            string word = Console.ReadLine();
-            return word;
-        }
-        //End get string value function
-
-        //Start get valid input length value function
-        public static string GetValidInputLength(string word, int? minLength = null, int? maxLength = null)
-        {
-            while (true)
-            {
-                if (CheckLength(word, minLength, maxLength))
-                {
-                    return word;
-                }
-                else
-                {
-                    if (minLength == null && maxLength == null)
-                    {
-                        throw new ArgumentException("specidy at least one of limitation ! (min or max)");
-                    }
-
-                    if (minLength != null)
-                    {
-                        Console.WriteLine($"your input should contain at least {minLength} characters");
-                    }
-
-                    if (maxLength != null)
-                    {
-                        Console.WriteLine($"your input can not be longer than {maxLength} characters");
-                    }
-                    Console.WriteLine("please enter again");
-                    word = GetStringValue();
-
-                }
-
-            }
-        }
-        //End get valid input length value function
-
-        //Start check length function
-        public static bool CheckLength(string word, int? minLength = null, int? maxLength = null)
-        {
-            int wordLength = word.Length;
-
-            if (minLength == null && maxLength == null)
-            {
-                throw new ArgumentException("specidy at least one of limitation ! (min or max)");
-            }
-
-            if (minLength != null && wordLength < minLength)
-            {
-                return false;
-            }
-
-            if (maxLength != null && wordLength > maxLength)
-            {
-                return false;
-            }
-
-            return true;
-        }
-        //End check length function
 
         //Start add product
         public static void AddProduct(Provider provider)
