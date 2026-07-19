@@ -36,7 +36,8 @@ namespace MarketplaceSystem
                 _description = value;
             }
 
-        }public string Price
+        }
+        public string Price
         {
             get
             {
@@ -47,7 +48,8 @@ namespace MarketplaceSystem
                 _price = value;
             }
 
-        }public string Stock
+        }
+        public string Stock
         {
             get
             {
