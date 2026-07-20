@@ -96,7 +96,7 @@ namespace MarketplaceSystem
                     switch (optionNumber)
                     {
                         case 1:
-                            user = UserLogin(users);
+                            user = Person.Login(users);
                             if (user != null)
                             {
                                 UserTools(user, providers);
@@ -182,7 +182,6 @@ namespace MarketplaceSystem
                 Console.WriteLine("products {");
                 ShowProducts(provider);
                 Console.WriteLine("}");
-
             }
         }
         //End show products of all providers
@@ -211,7 +210,7 @@ namespace MarketplaceSystem
                     switch (optionNumber)
                     {
                         case 1:
-                            provider = ProviderLogin(providers);
+                            provider = Person.Login(providers);
                             if (provider != null)
                             {
                                 ProviderTools(provider);
@@ -330,7 +329,7 @@ namespace MarketplaceSystem
                     switch (optionNumber)
                     {
                         case 1:
-                            admin = Person.Login<Admin>(admins);
+                            admin = Person.Login(admins);
                             if (admin != null)
                             {
                                 AdminTools(admin, providers, users);
@@ -444,165 +443,6 @@ namespace MarketplaceSystem
             }
         }
         // End show providers
-
-        //Start user login function
-        public static User UserLogin(List<User> users)
-        {
-            Console.WriteLine("please enter your user name");
-            string username = Console.ReadLine();
-
-            for (int i = 0; i < users.Count; i++)
-            {
-                if (users[i].UserName == username)
-                {
-                    Console.WriteLine("please enter your password");
-                    string password = Console.ReadLine();
-
-                    while (true)
-                    {
-                        if (users[i].Password == password)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("you logged in successfully");
-                            Console.ResetColor();
-                            return users[i];
-                        }
-                        else
-                        {
-                            Console.WriteLine("your password is incorrect!");
-                        }
-
-                        Console.WriteLine("enter e to exit or any key to retry:");
-                        string word = InputHelper.GetStringValue();
-
-                        if (word == "e")
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("please enter your password");
-                            password = Console.ReadLine();
-                        }
-                    }
-                }
-            }
-            return null;
-        }
-        //End user login function
-
-        //Start provider provider function
-        public static Provider ProviderLogin(List<Provider> providers)
-        {
-            Console.WriteLine("please enter your user name");
-            string username = Console.ReadLine();
-
-            for (int i = 0; i < providers.Count; i++)
-            {
-                if (providers[i].UserName == username)
-                {
-                    Console.WriteLine("please enter your password");
-                    string password = Console.ReadLine();
-
-                    while (true)
-                    {
-                        if (providers[i].Password == password)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("you logged in successfully");
-                            Console.ResetColor();
-                            return providers[i];
-                        }
-                        else
-                        {
-                            Console.WriteLine("your password is incorrect!");
-                        }
-
-                        Console.WriteLine("enter e to exit or any key to retry:");
-                        string word = InputHelper.GetStringValue();
-
-                        if (word == "e")
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("please enter your password");
-                            password = Console.ReadLine();
-                        }
-
-                    }
-
-                }
-
-            }
-
-            return null;
-
-        }
-        //End provider provider function
-
-        //Start admin login function
-        public static Admin AdminLogin(List<Admin> admins)
-        {
-            Console.WriteLine("please enter your user name");
-            string username = Console.ReadLine();
-
-            for (int i = 0; i < admins.Count; i++)
-            {
-                if (admins[i].UserName == username)
-                {
-                    Console.WriteLine("please enter your password");
-                    string password = Console.ReadLine();
-
-                    while (true)
-                    {
-                        if (admins[i].Password == password)
-                        {
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("you logged in successfully");
-                            Console.ResetColor();
-                            return admins[i];
-                        }
-                        else
-                        {
-                            Console.WriteLine("your password is incorrect!");
-                        }
-
-                        Console.WriteLine("enter e to exit or any key to retry:");
-                        string word = InputHelper.GetStringValue();
-
-                        if (word == "e")
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            Console.WriteLine("please enter your password");
-                            password = Console.ReadLine();
-                        }
-
-                    }
-
-                }
-
-            }
-
-            return null;
-        }
-        //End admin login function
-
-        //Start user sign up function
-        
-        //End user sign up function
-        
-        //Start provider sign up function
-        
-        //End provider sign up function
-
-        //Start admin sign up function
-        
-        //End admin sign up function
 
         //Start separate show list function for user
         public static void ShowUserList(List<User> users)

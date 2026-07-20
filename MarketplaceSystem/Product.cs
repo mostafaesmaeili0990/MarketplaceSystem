@@ -23,7 +23,6 @@ namespace MarketplaceSystem
             {
                 _name = value;
             }
-
         }
         public string Description
         {
