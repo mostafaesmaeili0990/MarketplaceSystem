@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookingSystem;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -224,7 +225,7 @@ namespace MarketplaceSystem
 
                             break;
                         case 2:
-                            provider = ProviderSignUp();
+                            provider = Provider.SignUp();
                             providers.Add(provider);
                             ProviderTools(provider);
                             break;
@@ -474,7 +475,7 @@ namespace MarketplaceSystem
                         }
 
                         Console.WriteLine("enter e to exit or any key to retry:");
-                        string word = GetStringValue();
+                        string word = InputHelper.GetStringValue();
 
                         if (word == "e")
                         {
@@ -520,7 +521,7 @@ namespace MarketplaceSystem
                         }
 
                         Console.WriteLine("enter e to exit or any key to retry:");
-                        string word = GetStringValue();
+                        string word = InputHelper.GetStringValue();
 
                         if (word == "e")
                         {
@@ -571,7 +572,7 @@ namespace MarketplaceSystem
                         }
 
                         Console.WriteLine("enter e to exit or any key to retry:");
-                        string word = GetStringValue();
+                        string word = InputHelper.GetStringValue();
 
                         if (word == "e")
                         {
@@ -598,27 +599,7 @@ namespace MarketplaceSystem
         //End user sign up function
         
         //Start provider sign up function
-        public static Provider ProviderSignUp()
-        {
-            Provider provider = new Provider();
-            Console.WriteLine("enter your first name");
-            provider.FirstName = GetValidInputLength(GetStringValue(), minLength: 3);
-            Console.WriteLine("enter your last name");
-            provider.LastName = GetValidInputLength(GetStringValue(), minLength: 3);
-            Console.WriteLine("enter your service");
-            provider.Service = GetStringValue();
-            Console.WriteLine("enter your user name");
-            provider.UserName = GetStringValue();
-            Console.WriteLine("enter your password");
-            provider.Password = GetStringValue();
-            Console.WriteLine("enter your phoneNumber");
-            provider.PhoneNumber = GetValidInputLength(GetStringValue(), minLength: 3, maxLength: 11);
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("you have successfully signed up");
-            Console.ResetColor();
-
-            return provider;
-        }
+        
         //End provider sign up function
 
         //Start admin sign up function
@@ -659,13 +640,13 @@ namespace MarketplaceSystem
         public static void AddProduct(Provider provider)
         {
             Console.WriteLine("please enter the name of product :");
-            string name = GetStringValue();
+            string name = InputHelper.GetStringValue();
             Console.WriteLine("please enter the description of product :");
-            string desciption = GetStringValue();
+            string desciption = InputHelper.GetStringValue();
             Console.WriteLine("please enter the price of product :");
-            string price = GetStringValue();
+            string price = InputHelper.GetStringValue();
             Console.WriteLine("please enter the stock of product :");
-            string stock = GetStringValue();
+            string stock = InputHelper.GetStringValue();
 
             provider.Products.Add(new Product
             {
@@ -685,7 +666,7 @@ namespace MarketplaceSystem
         public static bool DeleteProduct(Provider provider)
         {
             Console.WriteLine("please enter the name of the product you want to remove:");
-            string name = GetStringValue();
+            string name = InputHelper.GetStringValue();
 
             for (int i = 0; i < provider.Products.Count; i++)
             {
