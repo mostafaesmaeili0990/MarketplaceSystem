@@ -98,7 +98,60 @@ namespace MarketplaceSystem
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("you have successfully signed up");
             Console.ResetColor();
- 
+
         }
+
+        //generic method reuses the same login logic for all roles
+
+        public static T Login<T>(List<T> persons) where T : Person
+        {
+            Console.WriteLine("please enter your user name");
+            string username = Console.ReadLine();
+
+            for (int i = 0; i < persons.Count; i++)
+            {
+                if (persons[i].UserName == username)
+                {
+                    Console.WriteLine("please enter your password");
+                    string password = Console.ReadLine();
+
+                    while (true)
+                    {
+                        if (persons[i].Password == password)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("you logged in successfully");
+                            Console.ResetColor();
+                            return persons[i];
+                        }
+                        else
+                        {
+                            Console.WriteLine("your password is incorrect!");
+                        }
+
+                        Console.WriteLine("enter e to exit or any key to retry:");
+                        string word = InputHelper.GetStringValue();
+
+                        if (word == "e")
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("please enter your password");
+                            password = Console.ReadLine();
+                        }
+
+                    }
+
+                }
+
+            }
+
+            return null;
+        }
+
+        //End generic function login
+
     }
 }

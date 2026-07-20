@@ -93,7 +93,6 @@ namespace MarketplaceSystem
 
                     User user;
 
-
                     switch (optionNumber)
                     {
                         case 1:
@@ -188,7 +187,6 @@ namespace MarketplaceSystem
         }
         //End show products of all providers
 
-
         // Start provider program
         public static void ProviderProgram(List<Provider> providers)
         {
@@ -249,7 +247,7 @@ namespace MarketplaceSystem
         }
         // End provider program
 
-        // Start provider tools 
+        // Start provider tools
         public static void ProviderTools(Provider provider)
         {
             Console.WriteLine($"Hi {provider.FirstName} {provider.LastName}");
@@ -332,7 +330,7 @@ namespace MarketplaceSystem
                     switch (optionNumber)
                     {
                         case 1:
-                            admin = AdminLogin(admins);
+                            admin = Person.Login<Admin>(admins);
                             if (admin != null)
                             {
                                 AdminTools(admin, providers, users);
@@ -685,7 +683,6 @@ namespace MarketplaceSystem
 
         }
         //End add product function
-
         public static void ShowProducts(Provider provider)
         {
             foreach (Product product in provider.Products)
