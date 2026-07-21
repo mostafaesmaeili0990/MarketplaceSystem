@@ -46,7 +46,6 @@ namespace MarketplaceSystem
             {
                 _price = value;
             }
-
         }
         public string Stock
         {
