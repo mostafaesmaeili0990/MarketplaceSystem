@@ -1,4 +1,4 @@
-﻿using BookingSystem;
+﻿using MarketplaceSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +26,6 @@ namespace MarketplaceSystem
 
             MainMenu(users, providers, admins);
         }
-        //Start MainMenu function
         public static void MainMenu(List<User> users, List<Provider> providers, List<Admin> admins)
         {
             bool isRuning = true;
@@ -70,11 +69,5 @@ namespace MarketplaceSystem
                 }
             }
         }
-        //End MainMenu function
-
-        
-
-
-      
     }
 }

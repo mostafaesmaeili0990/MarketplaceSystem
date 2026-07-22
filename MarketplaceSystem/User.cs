@@ -129,6 +129,21 @@ namespace MarketplaceSystem
         }
         //End show products of all providers
 
+        public static void SelectProduct(List<Provider> providers)
+        {
+            for(int i =0; i < providers.Count; i++)
+            {
+                Console.WriteLine($"Provider full name : {providers[i].FirstName} {providers[i].LastName}");
+                Console.WriteLine("products {");
+                providers[i].ShowProducts();
+                Console.WriteLine("}");
+            }
+        }
+        private static void BuyProducts()
+        {
+            Cart cart = new Cart();
+
+        }
         
     }
 }
